@@ -5,6 +5,46 @@ Most recent entries at the top.
 
 ---
 
+## Session 3 — 2026-04-09 (continued)
+
+### GitHub
+- Repo created: https://github.com/gauravshetty81/fieldhands
+- Initial commit pushed — 48 files, all source code
+- `storage/` excluded from git (uploaded documents are sensitive, stay local only)
+- `.env.example` committed with placeholder values only
+
+### Manual Transcription
+- Added for handwritten documents that OCR can't read
+- New DB column: `manual_transcription` (Text)
+- New endpoint: `PATCH /api/documents/{id}/transcription`
+- UI: textarea in detail modal with Save button and ✓ confirmation
+- **User feedback:** Added "How to type Kannada ↗" link — must use correct Apple support URL, not guessed URLs
+  - Correct URL: https://support.apple.com/guide/mac-help/write-in-another-language-on-mac-mchlp1406/26/mac/26
+
+### Image Preprocessing for Phone Photos
+- Added `_preprocess_image()` in `analyzer.py` using OpenCV
+- Steps: document boundary detection → perspective correction → grayscale → CLAHE contrast → denoise → adaptive threshold
+- Helps with: background removal, uneven lighting, slight skew
+- **Limitation acknowledged:** Handwritten Kannada OCR is fundamentally poor regardless of preprocessing. EasyOCR trained on printed text only.
+
+### Katha Template Extractor Rewrite
+- Rewrote `extract_katha()` with targeted regex patterns based on actual BBMP Khata document structure
+- Root cause of previous failures: multiple table cells merged into one OCR line, generic "grab text after label" captured adjacent fields
+- New approach: format-specific patterns (decimal+integer for area, 12-digit for challan, boundary section parser, etc.)
+- Fields now extracted: Document Number, District, City/ULB, Property Type, Site Number, PID, Ward, Plot Area, Dimensions, Address, Boundaries (N/W/E/S), Owner Name, Aadhaar, Owner Address, Issued By, Issue Date, Challan
+
+### Editable Document Type in Modal
+- Added click-to-edit on document type badge in detail modal header
+- Dropdown with all document types, Save/Cancel buttons
+- Needed because users may upload with wrong type selected, which breaks template extraction
+
+### Translation Improvement
+- Changed from splitting on individual Kannada Unicode blocks to line-by-line translation
+- Model loaded once for both full text translation AND field value translation (was loading twice before)
+- Translation quality still imperfect for government documents — template extraction is the reliable path
+
+---
+
 ## Session 3 — 2026-04-09
 
 ### Document Analysis: Template-Based Extraction (Planned)
