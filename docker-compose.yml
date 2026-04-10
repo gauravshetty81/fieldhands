@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  fieldhands-db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: fieldhands
+      POSTGRES_USER: fieldhands_user
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - fieldhands-db-vol:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5434:5432"   # port 5434 to avoid conflict with budgeting (5433)
+    networks:
+      - fieldhands-net
+
+networks:
+  fieldhands-net:
+    driver: bridge
+
+volumes:
+  fieldhands-db-vol:

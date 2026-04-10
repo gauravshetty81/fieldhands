@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+.venv/
+venv/
+*.egg-info/
+
+# Database
+*.db
+*.sqlite
+
+# Uploaded documents (sensitive land records — never commit)
+storage/
+
+# Frontend build
+frontend/dist/
+frontend/node_modules/
+
+# Logs
+*.log
+/tmp/
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Alembic env (contains DB URL if set)
+# Keep migrations but not local env overrides
